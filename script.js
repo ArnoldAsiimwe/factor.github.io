@@ -145,16 +145,36 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 });
 
 // ===== CONTACT FORM =====
-document.getElementById('contactForm').addEventListener('submit', (e) => {
+const contactForm = document.getElementById('contactForm');
+
+contactForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = e.target.querySelector('button[type="submit"]');
-    btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-    btn.style.background = '#10b981';
-    setTimeout(() => {
-        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-        btn.style.background = '';
-        e.target.reset();
-    }, 3000);
+    const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+    try {
+        const response = await fetch(contactForm.action, {
+            method: 'POST',
+            body: new FormData(contactForm),
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (!response.ok) throw new Error('Failed to send message');
+
+        btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+        contactForm.reset();
+    } catch (error) {
+        btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Send Failed';
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+        }, 3000);
+    } finally {
+        btn.disabled = false;
+    }
 });
 
 // ===== BACK TO TOP =====
