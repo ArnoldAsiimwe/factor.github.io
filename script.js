@@ -9,14 +9,16 @@ const navToggle = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
 
 navToggle.addEventListener('click', () => {
-    navToggle.classList.toggle('active');
+    const expanded = navToggle.classList.toggle('active');
     navLinks.classList.toggle('active');
+    navToggle.setAttribute('aria-expanded', expanded);
 });
 
 navLinks.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
         navToggle.classList.remove('active');
         navLinks.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', false);
     });
 });
 
@@ -33,6 +35,27 @@ window.addEventListener('scroll', () => {
             link.classList.toggle('active', scrollY >= top && scrollY < top + height);
         }
     });
+});
+
+// ===== THEME TOGGLE =====
+const themeToggle = document.getElementById('themeToggle');
+
+function applyTheme(theme) {
+    const icon = themeToggle?.querySelector('i');
+    document.body.classList.toggle('light-theme', theme === 'light');
+    themeToggle?.classList.toggle('active', theme === 'light');
+    localStorage.setItem('theme', theme);
+    if (icon) {
+        icon.className = theme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+    }
+}
+
+const savedTheme = localStorage.getItem('theme');
+const defaultTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+applyTheme(defaultTheme);
+
+themeToggle?.addEventListener('click', () => {
+    applyTheme(document.body.classList.contains('light-theme') ? 'dark' : 'light');
 });
 
 // ===== TYPEWRITER EFFECT =====
@@ -120,30 +143,6 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
         });
     });
 });
-
-// ===== TESTIMONIAL SLIDER =====
-const testimonials = document.querySelectorAll('.testimonial-card');
-const dotsContainer = document.getElementById('testimonialDots');
-let currentTestimonial = 0;
-
-testimonials.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'testimonial-dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => showTestimonial(i));
-    dotsContainer.appendChild(dot);
-});
-
-function showTestimonial(index) {
-    testimonials.forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.testimonial-dot').forEach(d => d.classList.remove('active'));
-    testimonials[index].classList.add('active');
-    dotsContainer.children[index].classList.add('active');
-    currentTestimonial = index;
-}
-
-setInterval(() => {
-    showTestimonial((currentTestimonial + 1) % testimonials.length);
-}, 5000);
 
 // ===== CONTACT FORM =====
 document.getElementById('contactForm').addEventListener('submit', (e) => {
