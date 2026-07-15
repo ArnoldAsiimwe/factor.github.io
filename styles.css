@@ -807,6 +807,33 @@ body.light-theme .theme-toggle:hover {
     transform: translateX(2px);
 }
 
+.certificate-card {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.certificate-image {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    display: block;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.certificate-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-small {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+}
+
 /* ===== CONTACT ===== */
 .contact-grid {
     display: grid;
