@@ -792,6 +792,21 @@ body.light-theme .theme-toggle:hover {
     font-size: 0.9rem;
 }
 
+.timeline-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    color: var(--accent);
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.timeline-link:hover {
+    color: var(--accent-dark);
+    transform: translateX(2px);
+}
+
 /* ===== CONTACT ===== */
 .contact-grid {
     display: grid;
