@@ -144,6 +144,30 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     });
 });
 
+// ===== SKILL EXPAND ANIMATION =====
+document.querySelectorAll('.skill-card').forEach(card => {
+    const toggle = card.querySelector('.skill-toggle');
+    const content = card.querySelector('.skill-content');
+
+    toggle.addEventListener('click', () => {
+        const isOpen = card.classList.contains('active');
+
+        document.querySelectorAll('.skill-card').forEach(item => {
+            item.classList.remove('active');
+            const itemToggle = item.querySelector('.skill-toggle');
+            const itemContent = item.querySelector('.skill-content');
+            if (itemToggle) itemToggle.setAttribute('aria-expanded', 'false');
+            if (itemContent) itemContent.style.maxHeight = '0px';
+        });
+
+        if (!isOpen) {
+            card.classList.add('active');
+            toggle.setAttribute('aria-expanded', 'true');
+            content.style.maxHeight = `${content.scrollHeight}px`;
+        }
+    });
+});
+
 // ===== CONTACT FORM =====
 const contactForm = document.getElementById('contactForm');
 
